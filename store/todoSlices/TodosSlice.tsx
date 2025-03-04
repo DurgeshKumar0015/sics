@@ -1,18 +1,17 @@
 import { StyleSheet, Text, View } from 'react-native';
 import React from 'react';
 import { createSlice } from '@reduxjs/toolkit';
-
+type TodosType={id:string,
+  title:string,
+  completed:boolean
+}
+type StateType={
+  todos:TodosType[]
+}
+const initialState:StateType={todos:[]}
 const TodosSlice = createSlice({
   name: 'todos',
-  initialState: {
-    todos: [ 
-      {
-        id: "",
-        title: "", 
-        completed: false,
-      }
-    ],
-  },
+  initialState,
   reducers: {
     addTodo: (state, action) => {
       state.todos.push({
@@ -22,17 +21,18 @@ const TodosSlice = createSlice({
       });
     },
     removeTodo: (state, action) => {
-      state.todos = state.todos.filter(todo => todo.id !== action.payload);
+      state.todos = state.todos.filter((todo:TodosType) => todo.id !== action.payload);
     },
     toggleTodo: (state, action) => {
-      const todo = state.todos.find(todo => todo.id === action.payload);
+      const todo = state.todos.find((todo:TodosType) => todo.id === action.payload);
       if (todo) {
         todo.completed = !todo.completed;
+        
       }
     },
     editTodo: (state, action) => {
       const { id, newTitle } = action.payload; 
-      const todo = state.todos.find(todo => todo.id === id);
+      const todo = state.todos.find((todo:TodosType) => todo.id === id);
       if (todo) {
         todo.title = newTitle; 
       }
